@@ -52,14 +52,14 @@ public class Book extends EntityBase implements IView{
             else
             {
                 // copy all the retrieved data into persistent state
-                Properties retrievedAccountData = allDataRetrieved.elementAt(0);
+                Properties retrievedBookData = allDataRetrieved.elementAt(0);
                 persistentState = new Properties();
 
-                Enumeration allKeys = retrievedAccountData.propertyNames();
+                Enumeration allKeys = retrievedBookData.propertyNames();
                 while (allKeys.hasMoreElements() == true)
                 {
                     String nextKey = (String)allKeys.nextElement();
-                    String nextValue = retrievedAccountData.getProperty(nextKey);
+                    String nextValue = retrievedBookData.getProperty(nextKey);
                     // accountNumber = Integer.parseInt(retrievedAccountData.getProperty("accountNumber"));
 
                     if (nextValue != null)
@@ -124,12 +124,27 @@ public class Book extends EntityBase implements IView{
         myRegistry.updateSubscribers(key, this);
     }
 
+
+
+
     /** Called via the IView relationship */
     //----------------------------------------------------------
     public void updateState(String key, Object value)
     {
         stateChangeRequest(key, value);
     }
+
+
+
+    //-----------------------------------------------------------------------------------
+    public static int compare(Book a, Book b)
+    {
+        String aNum = (String)a.getState("bookId");
+        String bNum = (String)b.getState("bookId");
+
+        return aNum.compareTo(bNum);
+    }
+
 
     //-----------------------------------------------------------------------------------
     public void update() // save()
@@ -193,5 +208,13 @@ public class Book extends EntityBase implements IView{
             mySchema = getSchemaInfo(tableName);
         }
     }
+
+    public String toString()
+    {
+        return "Title: " + persistentState.getProperty("bookTitle") + "; Author: " +
+            persistentState.getProperty("author")  + "; Year: " +
+            persistentState.getProperty("pubYear") ;
+    }
+
 
 }
