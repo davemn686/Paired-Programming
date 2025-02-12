@@ -16,7 +16,8 @@ import impresario.IView;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-
+/***
 public class Patron extends EntityBase implements IView{
 
 }
+ **/
