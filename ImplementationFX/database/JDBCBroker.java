@@ -83,11 +83,8 @@ public class JDBCBroker
     	{
     		// DEBUG: System.out.println("JDBCBroker.JDBCBroker()");
 		//props = new PropertyFile("dbConfig.ini");
-
-			props = new PropertyFile("ImplementationFX/dbConfig.ini");
-
-			System.out.println(System.getProperty(props.toString()));
-
+		props = new PropertyFile("ImplementationFX/dbConfig.ini");
+		System.out.println(System.getProperty(props.toString()));
 		if (props != null)
 		{
 
