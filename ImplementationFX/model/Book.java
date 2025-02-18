@@ -147,7 +147,7 @@ public class Book extends EntityBase implements IView{
 
 
     //-----------------------------------------------------------------------------------
-    public void update() // save()
+    public void save() //
     {
         updateStateInDatabase();
     }
@@ -173,7 +173,7 @@ public class Book extends EntityBase implements IView{
                         insertAutoIncrementalPersistentState(mySchema, persistentState);
                 persistentState.setProperty("bookId", "" + bookId.intValue());
                 updateStatusMessage = "Book data for new book : " +  persistentState.getProperty("bookId")
-                        + "installed successfully in database!";
+                        + " installed successfully in database!";
             }
         }
         catch (SQLException ex)
@@ -214,6 +214,11 @@ public class Book extends EntityBase implements IView{
         return "Title: " + persistentState.getProperty("bookTitle") + "; Author: " +
             persistentState.getProperty("author")  + "; Year: " +
             persistentState.getProperty("pubYear") ;
+    }
+
+    public void display()
+    {
+        System.out.println(this.toString());
     }
 
 

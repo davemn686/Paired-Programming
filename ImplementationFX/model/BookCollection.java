@@ -83,11 +83,12 @@ public class BookCollection extends EntityBase implements IView
     }
 
     public Object getState(String key) {
-        if (key.equals("BookList"))
+        if (key.equals("BookList")) {
             return booklist;
-        else
-        if (key.equals("BookList"))
-            return this;
+        }
+        else if (key.equals("UpdateStatusMessage")) {
+            return "Found " + booklist.size() + " books";  // Add status message
+        }
         return null;
     }
 
@@ -120,7 +121,6 @@ public class BookCollection extends EntityBase implements IView
     }
 
     public void findBooksOlderThanDate(String year) {
-        // Clear the existing booklist
         booklist.clear();
         
         String query = "SELECT * FROM " + myTableName + 
@@ -132,8 +132,18 @@ public class BookCollection extends EntityBase implements IView
             if (allDataRetrieved != null) {
                 for (Properties props : allDataRetrieved) {
                     Book book = new Book(props);
-                    addBook(book);  // Uses the existing addBook method to maintain sorted order
+                    addBook(book);
                 }
+                
+                // Print the results
+                if (booklist.size() > 0) {
+                    System.out.println("\nFound books:");
+                    for (Book book : booklist) {
+                        System.out.println(book.toString());
+                    }
+                }else{
+                    System.out.println("No books found before year: " + year);
+                } 
             }
         } catch (Exception e) {
             System.out.println("Exception: " + e);
@@ -153,6 +163,15 @@ public class BookCollection extends EntityBase implements IView
                 for (Properties props : allDataRetrieved) {
                     Book book = new Book(props);
                     addBook(book);
+                }
+                // Print the results
+                if (booklist.size() > 0) {
+                    System.out.println("\nFound books:");
+                    for (Book book : booklist) {
+                        System.out.println(book.toString());
+                    }
+                }else{
+                    System.out.println("No books found after year: " + year);
                 }
             }
         } catch (Exception e) {
@@ -174,9 +193,18 @@ public class BookCollection extends EntityBase implements IView
                     Book book = new Book(props);
                     addBook(book);
                 }
+                // Print the results
+                if (booklist.size() > 0) {
+                    System.out.println("\nFound books:");
+                    for (Book book : booklist) {
+                        System.out.println(book.toString());
+                    }
+                } else {
+                    System.out.println("No books found matching title: " + title);
+                }
             }
         } catch (Exception e) {
-            System.out.println("Exception: " + e);
+            System.out.println("Exception while searching for books: " + e);
         }
     }
 

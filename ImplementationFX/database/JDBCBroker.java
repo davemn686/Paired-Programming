@@ -82,9 +82,12 @@ public class JDBCBroker
 	protected JDBCBroker()
     	{
     		// DEBUG: System.out.println("JDBCBroker.JDBCBroker()");
-		props = new PropertyFile("dbConfig.ini");
+		//props = new PropertyFile("dbConfig.ini");
+		props = new PropertyFile("ImplementationFX/dbConfig.ini");
+		System.out.println(System.getProperty(props.toString()));
 		if (props != null)
 		{
+
 			dbName = props.getProperty("dbName");
 			username = props.getProperty("username");
 			password = props.getProperty("password");
@@ -131,6 +134,11 @@ public class JDBCBroker
 		{
 			if(theDBConnection == null)
 			{
+
+
+				System.out.println("dbName: " + dbName);
+				System.out.println("username: " + username);
+				System.out.println("password: " + password);
 				if ((dbName != null) & (username != null) && (password != null))
 				{
 					try
@@ -146,7 +154,7 @@ public class JDBCBroker
 						//new Event(Event.getLeafLevelClassName(this), "getConnection", "Could not connect to database", Event.ERROR);
 					}     
 				}
-			}   
+			}
 		}	
 		//System.out.println("JDBCBroker.getConnection() with connection " + theDBConnection);
 	       	return theDBConnection;
