@@ -145,7 +145,9 @@ public class PatronCollection extends EntityBase implements IView
 
         String query = "SELECT * FROM " + myTableName +
                 " WHERE dateOfBirth > '" + date + "'";
-
+        //SELECT * FROM Patron WHERE dateOfBirth >
+        //
+        //1999-10-01
         try {
             Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 
@@ -154,6 +156,18 @@ public class PatronCollection extends EntityBase implements IView
                     Patron patron = new Patron(props);
                     addPatron(patron);
                 }
+
+                if (patronlist.size() > 0) {
+                    System.out.println("\nFound patrons:");
+                    for (Patron patron : patronlist) {
+                        System.out.println(patron.toString());
+                    }
+                }else{
+                    System.out.println("No patrons found after date: " + date);
+                }
+
+                
+
             }
         } catch (Exception e) {
             System.out.println("Exception: " + e);
@@ -195,6 +209,17 @@ public class PatronCollection extends EntityBase implements IView
                     addPatron(patron);
                 }
             }
+
+            if (patronlist.size() > 0) {
+                System.out.println("\nFound patrons:");
+                for (Patron patron : patronlist) {
+                    System.out.println(patron.toString());
+                }
+            }else{
+                System.out.println("No patrons found at zip code: " + zip);
+            }
+
+            
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }

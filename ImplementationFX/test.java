@@ -1,10 +1,8 @@
-import model.Book;
+
 import database.JDBCBroker;
 import java.util.*;
-import model.Patron;
+import model.*;
 import java.sql.Connection;
-import model.BookCollection;
-
 public class test {
     
     static Scanner sc = new Scanner(System.in);
@@ -36,8 +34,10 @@ public class test {
                 System.out.println("2. Insert a patron");
                 System.out.println("3. Find book");
                 System.out.println("4. Find book before year");
-                System.out.println("5. Exit");
-                System.out.print("Enter your choice (1-5): ");
+                System.out.println("5. Find patron before date");
+                System.out.println("6. Find patron at zip code");
+                System.out.println("7. Exit");
+                System.out.print("Enter your choice (1-7): ");
                 
                 // Check if there's input available
                 if (sc.hasNextLine()) {
@@ -45,7 +45,7 @@ public class test {
                     
                     // Validate input is a number
                     if (!input.matches("\\d+")) {
-                        System.out.println("Error: Please enter a number between 1 and 5");
+                        System.out.println("Error: Please enter a number between 1 and 7");
                         continue;
                     }
                     
@@ -65,10 +65,16 @@ public class test {
                             findBookBeforeYear();
                             break;
                         case 5:
+                            findPatronBeforeDate();
+                            break;
+                        case 6:
+                            findPatronAtZipCode();
+                            break;
+                        case 7: 
                             System.out.println("Thank you for using the Library Management System!");
                             return;
                         default:
-                            System.out.println("Error: Please enter a number between 1 and 5");
+                            System.out.println("Error: Please enter a number between 1 and 7");
                     }
                 }
             } catch (Exception e) {
@@ -77,6 +83,36 @@ public class test {
             }
         }
     }
+
+    static void findPatronAtZipCode(){
+        try {
+            System.out.println("\n=== Find Patron At Zip Code ===");
+            System.out.print("Enter the zip code to search for: ");
+            String zip = getValidZipCode();
+
+            PatronCollection patronCollection = new PatronCollection();
+            patronCollection.findPatronsAtZipCode(zip);
+        }catch (Exception e){
+            System.out.println("Error searching for patron: " + e.getMessage());
+        }
+    }
+
+    
+    static void findPatronBeforeDate() {
+        try {
+            System.out.println("\n=== Find Patron Before Date ===");
+            System.out.print("Enter the date to search for: ");
+            
+            String date = getValidDate();
+
+            PatronCollection patronCollection = new PatronCollection();
+            patronCollection.findPatronsYoungerThanDate(date);
+
+        }catch (Exception e){
+            System.out.println("Error searching for patron: " + e.getMessage());
+        }
+    }
+
 
     static void insertBook() {
         try {
