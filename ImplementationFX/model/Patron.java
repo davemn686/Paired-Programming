@@ -17,6 +17,9 @@ import userinterface.View;
 import userinterface.ViewFactory;
 
 
+/** The class containing the Patron for the Library application */
+//==============================================================
+
 public class Patron extends EntityBase implements IView{
     private static final String myTableName = "Patron";
 

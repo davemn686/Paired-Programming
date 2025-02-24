@@ -17,7 +17,7 @@ import userinterface.View;
 import userinterface.ViewFactory;
 
 
-/** The class containing the AccountCollection for the ATM application */
+/** The class containing the BookCollection for the Library application */
 //==============================================================
 
 public class BookCollection extends EntityBase implements IView
@@ -139,7 +139,7 @@ public class BookCollection extends EntityBase implements IView
                 if (booklist.size() > 0) {
                     System.out.println("\nFound books:");
                     for (Book book : booklist) {
-                        System.out.println(book.toString());
+                        book.display();
                     }
                 }else{
                     System.out.println("No books found before year: " + year);
@@ -168,7 +168,7 @@ public class BookCollection extends EntityBase implements IView
                 if (booklist.size() > 0) {
                     System.out.println("\nFound books:");
                     for (Book book : booklist) {
-                        System.out.println(book.toString());
+                        book.display();
                     }
                 }else{
                     System.out.println("No books found after year: " + year);
@@ -197,7 +197,7 @@ public class BookCollection extends EntityBase implements IView
                 if (booklist.size() > 0) {
                     System.out.println("\nFound books:");
                     for (Book book : booklist) {
-                        System.out.println(book.toString());
+                        book.display();
                     }
                 } else {
                     System.out.println("No books found matching title: " + title);
@@ -222,6 +222,15 @@ public class BookCollection extends EntityBase implements IView
                     Book book = new Book(props);
                     addBook(book);
                 }
+            }
+            // Print the results
+            if (booklist.size() > 0) {
+                System.out.println("\nFound books:");
+                for (Book book : booklist) {
+                    book.display();
+                }
+            } else {
+                System.out.println("No books found matching author: " + author);
             }
         } catch (Exception e) {
             System.out.println("Exception: " + e);
