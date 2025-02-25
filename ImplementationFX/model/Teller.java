@@ -37,7 +37,7 @@ public class Teller implements IView, IModel
 
 	// GUI Components
 	private Hashtable<String, Scene> myViews;
-	private Stage	  	myStage;
+	private Stage myStage;
 
 	private String loginErrorMessage = "";
 	private String transactionErrorMessage = "";
@@ -188,6 +188,7 @@ public class Teller implements IView, IModel
 			// DEBUG System.out.println("Account Holder: " + myAccountHolder.getState("Name") + " successfully logged in");
 			return true;
 		}
+
 		catch (InvalidPrimaryKeyException ex)
 		{
 				loginErrorMessage = "ERROR: " + ex.getMessage();
