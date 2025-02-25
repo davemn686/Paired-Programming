@@ -26,6 +26,14 @@ public class Book extends EntityBase implements IView{
     private String updateStatusMessage = "";
 
 
+    public Book(){
+        super(myTableName);
+
+        persistentState = new Properties();
+
+    }
+
+
     // constructor for this class
     //----------------------------------------------------------
     public Book(String bookId)
