@@ -16,6 +16,8 @@ import impresario.IView;
 import userinterface.View;
 import userinterface.ViewFactory;
 
+/** The class containing the Book for the Library application */
+//==============================================================
 
 public class Book extends EntityBase implements IView{
     private static final String myTableName = "Book";

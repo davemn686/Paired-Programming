@@ -17,7 +17,7 @@ import userinterface.View;
 import userinterface.ViewFactory;
 
 
-/** The class containing the AccountCollection for the ATM application */
+/** The class containing the PatronCollection for the Library application */
 //==============================================================
 
 public class PatronCollection extends EntityBase implements IView
@@ -134,7 +134,18 @@ public class PatronCollection extends EntityBase implements IView
                     Patron patron = new Patron(props);
                     addPatron(patron);  // Uses the existing addPatron method to maintain sorted order
                 }
+
+                if (patronlist.size() > 0) {
+                    System.out.println("\nFound patrons:");
+                    for (Patron patron : patronlist) {
+                        patron.display();
+                    }
+                }else{
+                    System.out.println("No patrons found before date: " + date);
+                }
             }
+
+
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
@@ -160,7 +171,7 @@ public class PatronCollection extends EntityBase implements IView
                 if (patronlist.size() > 0) {
                     System.out.println("\nFound patrons:");
                     for (Patron patron : patronlist) {
-                        System.out.println(patron.toString());
+                        patron.display();
                     }
                 }else{
                     System.out.println("No patrons found after date: " + date);
@@ -188,6 +199,15 @@ public class PatronCollection extends EntityBase implements IView
                     Patron patron = new Patron(props);
                     addPatron(patron);
                 }
+
+                if (patronlist.size() > 0) {
+                    System.out.println("\nFound patrons:");
+                    for (Patron patron : patronlist) {
+                        patron.display();
+                    }
+                }else{
+                    System.out.println("No patrons found with name: " + name);
+                }
             }
         } catch (Exception e) {
             System.out.println("Exception: " + e);
@@ -213,7 +233,7 @@ public class PatronCollection extends EntityBase implements IView
             if (patronlist.size() > 0) {
                 System.out.println("\nFound patrons:");
                 for (Patron patron : patronlist) {
-                    System.out.println(patron.toString());
+                    patron.display();
                 }
             }else{
                 System.out.println("No patrons found at zip code: " + zip);

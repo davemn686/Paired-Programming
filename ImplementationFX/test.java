@@ -1,5 +1,5 @@
 
-import database.JDBCBroker;
+import database.*;
 import java.util.*;
 import model.*;
 import java.sql.Connection;
