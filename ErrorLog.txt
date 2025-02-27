@@ -1,3 +1,5 @@
 [2/13/25, 12:26 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[org.mariadb.jdbc.Driver]>
 [2/13/25, 12:28 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[org.mariadb.jdbc.Driver]>
 [2/20/25, 12:32 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[org.mariadb.jdbc.Driver]>
+[2/25/25, 1:35 PM]|Book|getSchemaInfo|Error|NOTAG|null<SQL Exception: -1: (conn=727) Socket error>
+[2/26/25, 3:06 PM]|AccountHolder|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1146: (conn=1151) Table 'spr25_csc429_backe1.AccountHolder' doesn't exist>

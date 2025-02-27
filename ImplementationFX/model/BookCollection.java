@@ -83,9 +83,10 @@ public class BookCollection extends EntityBase implements IView
     }
 
     public Object getState(String key) {
-        if (key.equals("BookList")) {
+        if (key.equals("Books")) {
             return booklist;
         }
+        else if (key.equals("BookList")) {return this;}
         else if (key.equals("UpdateStatusMessage")) {
             return "Found " + booklist.size() + " books";  // Add status message
         }
