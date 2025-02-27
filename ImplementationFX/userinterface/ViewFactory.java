@@ -19,6 +19,15 @@ public class ViewFactory {
 		{
 			return new LibrarianView(model);
 		}
+		else if (viewName.equals("SearchBookView") == true)
+		{
+			return new SearchBookView(model);
+		}
+		else if(viewName.equals("BookCollectionView") == true)
+		{
+			return new BookCollectionView(model);
+		}
+
 		else if(viewName.equals("TransactionChoiceView") == true)
 		{
 			return new TransactionChoiceView(model);

@@ -32,6 +32,7 @@ public class Librarian implements IView , IModel {
 
     private String loginErrorMessage = "";
     private String transactionErrorMessage = "";
+    private BookCollection bookCollection;
 
 
 
@@ -40,6 +41,7 @@ public class Librarian implements IView , IModel {
         myViews = new Hashtable<String, Scene>();
 
         myRegistry = new ModelRegistry("Librarian");
+        bookCollection = new BookCollection();
 
         if(myRegistry == null){
             new Event(Event.getLeafLevelClassName(this), "Librarian",
@@ -72,8 +74,13 @@ public class Librarian implements IView , IModel {
     //----------------------------------------------------------
     public Object getState(String key)
     {
+        if(key.equals("BookList")) {
+            return bookCollection;
+        }
+
         return "";
     }
+
 
     /** Register objects to receive state updates. */
     //----------------------------------------------------------
@@ -98,6 +105,18 @@ public class Librarian implements IView , IModel {
             createAndShowLibrarianView();
         }else if(key.equals("InsertBook")){
             createNewBook();
+        }else if(key.equals("InsertABook")){
+            // This is to insert a new book
+            Book book  = new Book();
+            book.processNewBook((Properties)value);
+            book.save();
+
+        }else if(key.equals("SearchBook")){
+            createAndShowSearchBookView();
+        }else if(key.equals("FindBookWithTitleLike")){
+            bookCollection = new BookCollection();
+            bookCollection.findBooksWithTitleLike((String)value);
+            createAndShowBookCollectionView();
         }
     }
 
@@ -108,6 +127,33 @@ public class Librarian implements IView , IModel {
         // DEBUG System.out.println("Teller.updateState: key: " + key);
 
         stateChangeRequest(key, value);
+    }
+
+    private void createAndShowBookCollectionView(){
+        Scene currentScene = (Scene)myViews.get("BookCollectionView");
+
+        if(currentScene == null) {
+            View newView = ViewFactory.createView("BookCollectionView", this);
+            currentScene = new Scene(newView);
+            myViews.put("BookCollectionView", currentScene);
+        }
+
+        swapToView(currentScene);
+
+    }
+
+
+    private void createAndShowSearchBookView(){
+        Scene currentScene = (Scene)myViews.get("SearchBookView");
+
+        if(currentScene == null) {
+            View newView = ViewFactory.createView("SearchBookView", this);
+            currentScene = new Scene(newView);
+            myViews.put("SearchBookView", currentScene);
+        }
+
+        swapToView(currentScene);
+
     }
 
     private void createAndShowLibrarianView(){
@@ -136,6 +182,10 @@ public class Librarian implements IView , IModel {
         }
 
         swapToView(currentScene);
+
+    }
+
+    public void insertBook(Properties p){
 
     }
 

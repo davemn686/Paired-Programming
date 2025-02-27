@@ -134,6 +134,19 @@ public class Book extends EntityBase implements IView{
         myRegistry.updateSubscribers(key, this);
     }
 
+    public void processNewBook(Properties props){
+        Enumeration allKeys = props.propertyNames();
+        while (allKeys.hasMoreElements() == true)
+        {
+            String nextKey = (String)allKeys.nextElement();
+            String nextValue = props.getProperty(nextKey);
+
+            if (nextValue != null)
+            {
+                persistentState.setProperty(nextKey, nextValue);
+            }
+        }
+    }
 
 
 

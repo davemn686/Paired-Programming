@@ -155,7 +155,7 @@ public class BookView extends View {
 
     public void processAction(Event evt){
         if (evt.getSource() == SubmitButton){
-
+            processActionsInsertBook();
         } else if (evt.getSource() == DoneButton){
             returnToHome();
         }
@@ -163,10 +163,49 @@ public class BookView extends View {
 
     private void processActionsInsertBook(){
         String authorText = AuthorTextField.getText();
+        String titleText = TitleTextField.getText();
+        String publicationDateText = PublicationDateTextField.getText();
+        String statusText = StatusComboBox.getValue();
+
+        if(authorText.isEmpty() || titleText.isEmpty() || publicationDateText.isEmpty() || statusText.isEmpty()){
+            displayErrorMessage("Please fill in all fields");
+            return;
+        }
+
+
+        // publicationDate should be between 1800-2024
+        if(publicationDateText.length() != 4 || !publicationDateText.matches("\\d+")){
+            displayErrorMessage("Invalid publication date format");
+            return;
+        }
+
+        int year = Integer.parseInt(publicationDateText);
+        if(year < 1800 || year > 2024){
+            displayErrorMessage("Invalid publication date");
+            return;
+        }
+
+        Properties prop = new Properties();
+
+        prop.setProperty("author", authorText);
+        prop.setProperty("bookTitle", titleText);
+        prop.setProperty("pubYear", publicationDateText);
+        prop.setProperty("status", statusText);
+
+
+        myModel.stateChangeRequest("InsertABook", prop);
+
+        AuthorTextField.setText("");
+        TitleTextField.setText("");
+        PublicationDateTextField.setText("");
+        StatusComboBox.setValue("Active");
+
+        displayErrorMessage("Successfully inserted book");
 
     }
 
     private void returnToHome(){
+
         myModel.stateChangeRequest("Done", null);
     }
 
