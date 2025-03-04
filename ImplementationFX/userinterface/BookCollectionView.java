@@ -44,8 +44,7 @@ import model.BookCollection;
 
 public class BookCollectionView extends View{
     protected TableView<BookTableModel> tableOfBooks;
-    protected Button cancelButton;
-    protected Button submitButton;
+    protected Button doneButton;
 
     protected MessageView statusLog;
 
@@ -174,18 +173,8 @@ public class BookCollectionView extends View{
         scrollPane.setContent(tableOfBooks);
 
 
-        submitButton = new Button("Submit");
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                processBookSelected();
-
-            }
-        });
-
-        cancelButton = new Button("Back");
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+        doneButton = new Button("Done");
+        doneButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) { 
                 clearErrorMessage();
@@ -193,10 +182,12 @@ public class BookCollectionView extends View{
             }
         });
 
+        doneButton.setAlignment(Pos.BOTTOM_RIGHT);
+
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(submitButton);
-        btnContainer.getChildren().add(cancelButton);   
+        btnContainer.getChildren().add(doneButton);
+
 
         vbox.getChildren().add(grid);
         vbox.getChildren().add(tableOfBooks);
@@ -218,9 +209,9 @@ public class BookCollectionView extends View{
         
         if(selectedItem != null)
         {
-            String selectedBookTitle = selectedItem.getBookTitle();
+            String selectedBookId = selectedItem.getBookTitle();
 
-            myModel.stateChangeRequest("BookSelected", selectedBookTitle);
+            myModel.stateChangeRequest("BookSelected", selectedBookId);
         }   
     }
 

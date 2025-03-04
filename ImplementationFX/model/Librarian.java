@@ -32,6 +32,7 @@ public class Librarian implements IView , IModel {
 
     private String loginErrorMessage = "";
     private String transactionErrorMessage = "";
+    private String successMessage = "";
     private BookCollection bookCollection;
 
 
@@ -58,6 +59,8 @@ public class Librarian implements IView , IModel {
     private void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("loginErrorMessage", loginErrorMessage);
+        dependencies.setProperty("successMessage", successMessage);
+        dependencies.setProperty("transactionErrorMessage", transactionErrorMessage);
 
         myRegistry.setDependencies(dependencies);
     }
@@ -110,13 +113,25 @@ public class Librarian implements IView , IModel {
             Book book  = new Book();
             book.processNewBook((Properties)value);
             book.save();
-
+            
+            // Add success message
+            successMessage = "Successfully inserted book";
+            myRegistry.updateSubscribers("BookInsertSuccess", this);
         }else if(key.equals("SearchBook")){
             createAndShowSearchBookView();
         }else if(key.equals("FindBookWithTitleLike")){
             bookCollection = new BookCollection();
             bookCollection.findBooksWithTitleLike((String)value);
             createAndShowBookCollectionView();
+        }else if(key.equals("BookSelected")){
+            
+            Book book = bookCollection.retrieve((String)value);
+            if(book == null){
+                System.out.println(loginErrorMessage);
+
+            }else{
+                book.display();
+            }
         }
     }
 
@@ -182,10 +197,6 @@ public class Librarian implements IView , IModel {
         }
 
         swapToView(currentScene);
-
-    }
-
-    public void insertBook(Properties p){
 
     }
 

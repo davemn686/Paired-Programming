@@ -117,6 +117,8 @@ public class Account extends EntityBase implements IView
 		if (key.equals("UpdateStatusMessage") == true)
 			return updateStatusMessage;
 
+
+
 		return persistentState.getProperty(key);
 	}
 
