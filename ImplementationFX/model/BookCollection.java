@@ -94,17 +94,18 @@ public class BookCollection extends EntityBase implements IView
     }
 
     //----------------------------------------------------------
-    public Book retrieve(String bookId)
+    public Book retrieve(String bookTitle)
     {
         Book retValue = null;
         for (int cnt = 0; cnt < booklist.size(); cnt++)
         {
-            Book nextAcct = booklist.elementAt(cnt);
-            String nextAccNum = (String)nextAcct.getState("bookId");
-            if (nextAccNum.equals(bookId) == true)
+            Book nextBook = booklist.elementAt(cnt);
+            String nextBookTitle = (String)nextBook.getState("bookTitle");
+            if (nextBookTitle.equals(bookTitle) == true)
             {
-                retValue = nextAcct;
-                return retValue; // we should say 'break;' here
+                retValue = nextBook;
+                break;
+                //return retValue; // we should say 'break;' here
             }
         }
 

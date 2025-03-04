@@ -51,6 +51,7 @@ public class BookView extends View {
         populateFields();
 
         myModel.subscribe("InsertBookError", this);
+        myModel.subscribe("BookInsertSuccess", this);
     }
 
     private Node createTitle(){
@@ -212,6 +213,8 @@ public class BookView extends View {
 
     public void updateState(String key, Object value){
         if (key.equals("InsertBookError") == true){
+            displayErrorMessage((String)value);
+        } else if (key.equals("BookInsertSuccess")) {
             displayErrorMessage((String)value);
         }
     }
