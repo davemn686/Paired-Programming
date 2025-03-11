@@ -31,8 +31,6 @@ public class PatronView extends View {
     private TextField ZipTextField;
     private TextField EmailTextField;
     private TextField DOBTextField;
-
-    private ComboBox<String> StatusComboBox;
     private ComboBox<String> StateCodeComboBox;
 
     private Button SubmitButton;
@@ -112,13 +110,6 @@ public class PatronView extends View {
         dateLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         dateLabel.setFill(Color.DARKGREEN);
 
-
-        StatusComboBox = new ComboBox<>();
-        StatusComboBox.setPrefWidth(200);
-        Text statusLabel = new Text("Status: ");
-        statusLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-        statusLabel.setFill(Color.DARKGREEN);
-
         StateCodeComboBox = new ComboBox<>();
         StateCodeComboBox.setPrefWidth(200);
         Text stateCodeLabel = new Text("State Code: ");
@@ -155,16 +146,14 @@ public class PatronView extends View {
                 AddressTextField,
                 cityLabel,
                 CityTextField,
+                stateCodeLabel,
+                StateCodeComboBox,
                 zipLabel,
                 ZipTextField,
                 emailLabel,
                 EmailTextField,
                 dateLabel,
                 DOBTextField,
-                statusLabel,
-                StatusComboBox,
-                stateCodeLabel,
-                StateCodeComboBox,
                 buttonRow
         );
 
@@ -185,10 +174,6 @@ public class PatronView extends View {
         ZipTextField.setText("");
         EmailTextField.setText("");
         DOBTextField.setText("");
-        //combobox has two values, Active and Inactive
-        StatusComboBox.getItems().add("Active");
-        StatusComboBox.getItems().add("Inactive");
-        StatusComboBox.setValue("Active");
         StateCodeComboBox.getItems().add("AL");
         StateCodeComboBox.getItems().add("AK");
         StateCodeComboBox.getItems().add("AZ");
@@ -263,9 +248,9 @@ public class PatronView extends View {
         String zipText = ZipTextField.getText();
         String emailText = EmailTextField.getText();
         String dobText = DOBTextField.getText();
-        String statusText = StatusComboBox.getValue();
+        String stateCode = StateCodeComboBox.getValue();
 
-        if (nameText.isEmpty() || addressText.isEmpty() || cityText.isEmpty() || zipText.isEmpty() || emailText.isEmpty() || dobText.isEmpty() || statusText.isEmpty()){
+        if (nameText.isEmpty() || addressText.isEmpty() || cityText.isEmpty() || zipText.isEmpty() || emailText.isEmpty() || dobText.isEmpty()){
             displayErrorMessage("Please fill in all fields");
             return;
         }
@@ -275,10 +260,11 @@ public class PatronView extends View {
         prop.setProperty("name", nameText);
         prop.setProperty("address", addressText);
         prop.setProperty("city", cityText);
+        prop.setProperty("stateCode", stateCode);
         prop.setProperty("zip", zipText);
         prop.setProperty("email", emailText);
-        prop.setProperty("dob", dobText);
-        prop.setProperty("status", statusText);
+        prop.setProperty("dateOfBirth", dobText);
+        prop.setProperty("status", "Active");
 
         myModel.stateChangeRequest("InsertAPatron", prop);
 
