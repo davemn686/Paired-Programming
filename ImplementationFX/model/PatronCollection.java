@@ -83,7 +83,10 @@ public class PatronCollection extends EntityBase implements IView
     }
 
     public Object getState(String key) {
-        if (key.equals("PatronList"))
+        if (key.equals("Patrons")){
+            return patronlist;
+        }
+        else if (key.equals("PatronList"))
             return patronlist;
         else
         if (key.equals("PatronList"))

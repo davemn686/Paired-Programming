@@ -15,6 +15,10 @@ public class ViewFactory {
 		{
 			return new BookView(model);
 		}
+		else if (viewName.equals("PatronView") == true)
+		{
+			return new PatronView(model);
+		}
 		else if (viewName.equals("LibrarianView") == true)
 		{
 			return new LibrarianView(model);
@@ -23,11 +27,18 @@ public class ViewFactory {
 		{
 			return new SearchBookView(model);
 		}
+		else if (viewName.equals("SearchPatronView") == true)
+		{
+			return new SearchPatronView(model);
+		}
 		else if(viewName.equals("BookCollectionView") == true)
 		{
 			return new BookCollectionView(model);
 		}
-
+		else if(viewName.equals("PatronCollectionView") == true)
+		{
+			return new PatronCollectionView(model);
+		}
 		else if(viewName.equals("TransactionChoiceView") == true)
 		{
 			return new TransactionChoiceView(model);

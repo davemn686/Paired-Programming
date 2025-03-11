@@ -34,6 +34,7 @@ public class Librarian implements IView , IModel {
     private String transactionErrorMessage = "";
     private String successMessage = "";
     private BookCollection bookCollection;
+    private PatronCollection patronCollection;
 
 
 
@@ -79,6 +80,8 @@ public class Librarian implements IView , IModel {
     {
         if(key.equals("BookList")) {
             return bookCollection;
+        }else if(key.equals("PatronList")){
+            return patronCollection;
         }
 
         return "";
@@ -132,6 +135,22 @@ public class Librarian implements IView , IModel {
             }else{
                 book.display();
             }
+        }else if(key.equals("InsertPatron")){
+            createNewPatron();
+        }else if(key.equals("InsertAPatron")){
+            Patron patron = new Patron();
+            patron.processNewPatron((Properties)value);
+            patron.save();
+
+            successMessage = "Successfully inserted patron";
+            myRegistry.updateSubscribers("PatronInsertSuccess", this);
+        }else if (key.equals("SearchPatron")){
+            createAndShowSearchPatronView();
+        }else if(key.equals("FindPatronAtZipCode")){
+            patronCollection = new PatronCollection();
+            patronCollection.findPatronsAtZipCode((String)value);
+            createAndShowPatronCollectionView();
+
         }
     }
 
@@ -157,6 +176,19 @@ public class Librarian implements IView , IModel {
 
     }
 
+    private void createAndShowPatronCollectionView(){
+        Scene currentScene = (Scene)myViews.get("PatronCollectionView");
+
+        if(currentScene == null) {
+            View newView = ViewFactory.createView("PatronCollectionView", this);
+            currentScene = new Scene(newView);
+            myViews.put("PatronCollectionView", currentScene);
+        }
+
+        swapToView(currentScene);
+
+    }
+
 
     private void createAndShowSearchBookView(){
         Scene currentScene = (Scene)myViews.get("SearchBookView");
@@ -165,6 +197,19 @@ public class Librarian implements IView , IModel {
             View newView = ViewFactory.createView("SearchBookView", this);
             currentScene = new Scene(newView);
             myViews.put("SearchBookView", currentScene);
+        }
+
+        swapToView(currentScene);
+
+    }
+
+    private void createAndShowSearchPatronView(){
+        Scene currentScene = (Scene)myViews.get("SearchPatronView");
+
+        if(currentScene == null) {
+            View newView = ViewFactory.createView("SearchPatronView", this);
+            currentScene = new Scene(newView);
+            myViews.put("SearchPatronView", currentScene);
         }
 
         swapToView(currentScene);
@@ -194,6 +239,22 @@ public class Librarian implements IView , IModel {
             View newView = ViewFactory.createView("BookView", this);
             currentScene = new Scene(newView);
             myViews.put("BookView", currentScene);
+        }
+
+        swapToView(currentScene);
+
+    }
+
+    private void createNewPatron(){
+        Patron patron = new Patron();
+
+        Scene currentScene = (Scene)myViews.get("PatronView");
+
+
+        if(currentScene == null) {
+            View newView = ViewFactory.createView("PatronView", this);
+            currentScene = new Scene(newView);
+            myViews.put("PatronView", currentScene);
         }
 
         swapToView(currentScene);
