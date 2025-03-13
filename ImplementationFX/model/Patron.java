@@ -103,6 +103,18 @@ public class Patron extends EntityBase implements IView{
         }
     }
 
+
+    public Patron(){
+        super(myTableName);
+
+        persistentState = new Properties();
+    }
+
+    //-----------------------------------------------------------------------------------
+    public String getName(){
+        return persistentState.getProperty("name");
+    }
+
     //-----------------------------------------------------------------------------------
     private void setDependencies()
     {
@@ -127,7 +139,19 @@ public class Patron extends EntityBase implements IView{
         myRegistry.updateSubscribers(key, this);
     }
 
+    public void processNewPatron(Properties props){
+        Enumeration allKeys = props.propertyNames();
+        while (allKeys.hasMoreElements() == true)
+        {
+            String nextKey = (String)allKeys.nextElement();
+            String nextValue = props.getProperty(nextKey);
 
+            if (nextValue != null)
+            {
+                persistentState.setProperty(nextKey, nextValue);
+            }
+        }
+    }
 
 
     /** Called via the IView relationship */

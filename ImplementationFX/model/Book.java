@@ -111,6 +111,11 @@ public class Book extends EntityBase implements IView{
     }
 
     //-----------------------------------------------------------------------------------
+    public String getAuthor(){
+        return persistentState.getProperty("author");
+    }
+
+    //-----------------------------------------------------------------------------------
     private void setDependencies()
     {
         dependencies = new Properties();
@@ -147,7 +152,6 @@ public class Book extends EntityBase implements IView{
             }
         }
     }
-
 
 
     /** Called via the IView relationship */

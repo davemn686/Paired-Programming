@@ -92,9 +92,7 @@ public class LibrarianView  extends View{
         insertPatronButton = new Button("Insert Patron");
         insertPatronButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent e) {
-                processAction(e);
-            }
+            public void handle(ActionEvent e) { processAction(e); }
         });
         insertPatronButton.setPrefWidth(150);
 
@@ -160,13 +158,12 @@ public class LibrarianView  extends View{
         } else if (evt.getSource() == searchPatronButton){
             myModel.stateChangeRequest("SearchPatron", null);
         } else if (evt.getSource() == doneButton){
-            myModel.stateChangeRequest("Done", null);
+            myModel.stateChangeRequest("Close", null);
         }
     }
 
-    private void insertBook(){
-        myModel.stateChangeRequest("InsertBook", null);
-    }
+    private void insertBook(){myModel.stateChangeRequest("InsertBook", null); }
+    private void insertPatron(){myModel.stateChangeRequest("InsertPatron", null); }
 
     public void updateState(String key, Object value){
         if (key.equals("InsertBookError") == true){

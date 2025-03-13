@@ -23,36 +23,36 @@ import javafx.stage.Stage;
 
 import impresario.IModel;
 
-public class SearchBookView extends View {
+public class SearchPatronView extends View {
 
     private TextField searchTextField;
     private Button searchButton;
     private Button doneButton;
-    
+
     private MessageView statusLog;
 
-    public SearchBookView(IModel librarian){
-        super(librarian, "SearchBookView");
-        
+    public SearchPatronView(IModel librarian){
+        super(librarian, "SearchPatronView");
+
         VBox container = new VBox(10);
         container.setAlignment(Pos.CENTER);
 
         container.getChildren().add(createTitle());
         container.getChildren().add(createFormContents());
-        container.getChildren().add(createStatusLog("                          ")); 
+        container.getChildren().add(createStatusLog("                          "));
 
         getChildren().add(container);
 
         populateFields();
 
-        myModel.subscribe("searchBookFailure", this);
-        }
+        myModel.subscribe("searchPatronFailure", this);
+    }
 
     private Node createTitle(){
-        Text titleText = new Text("       Brockport Library Book Search          ");
+        Text titleText = new Text("       Brockport Library Patron Search          ");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-            titleText.setFill(Color.DARKGREEN);
+        titleText.setFill(Color.DARKGREEN);
 
         return titleText;
     }
@@ -69,7 +69,7 @@ public class SearchBookView extends View {
 
         searchTextField = new TextField();
         searchTextField.setPrefWidth(200);
-        Text searchLabel = new Text("Search: ");
+        Text searchLabel = new Text("Enter patron zip");
         searchLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         searchLabel.setFill(Color.DARKGREEN);
 
@@ -96,9 +96,9 @@ public class SearchBookView extends View {
         buttonRow.getChildren().addAll(searchButton, doneButton);
 
         buttonBox.getChildren().addAll(
-            searchLabel,
-            searchTextField,
-            buttonRow
+                searchLabel,
+                searchTextField,
+                buttonRow
         );
 
         grid.add(buttonBox, 0, 0);
@@ -116,30 +116,31 @@ public class SearchBookView extends View {
     }
 
     public void processAction(Event evt){
+        clearErrorMessage();
         if (evt.getSource() == searchButton){
-            processActionsSearchBook();
+            processActionsSearchPatron();
         } else if (evt.getSource() == doneButton){
             returnToHome();
         }
     }
 
-    private void processActionsSearchBook(){
+    private void processActionsSearchPatron(){
         String searchText = searchTextField.getText();
         if(searchText.isEmpty()){
             displayErrorMessage("Please enter a search term");
             return;
         }
 
-        myModel.stateChangeRequest("FindBookWithTitleLike", searchText);
+        myModel.stateChangeRequest("FindPatronAtZipCode", searchText);
 
     }
 
     private void returnToHome(){
         myModel.stateChangeRequest("Done", null);
     }
-    
+
     public void updateState(String key, Object value){
-        if (key.equals("searchBookFailure") == true){
+        if (key.equals("searchPatronFailure") == true){
             displayErrorMessage((String)value);
         }
     }
@@ -150,5 +151,5 @@ public class SearchBookView extends View {
 
     public void clearErrorMessage(){
         statusLog.clearErrorMessage();
-    }   
+    }
 }

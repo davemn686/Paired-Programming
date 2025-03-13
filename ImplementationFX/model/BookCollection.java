@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import java.util.Comparator;
 import java.util.Properties;
 import java.util.Vector;
 import javafx.scene.Scene;
@@ -25,11 +26,26 @@ public class BookCollection extends EntityBase implements IView
     private static final String myTableName = "Book";
 
 
+
     private Vector<Book> booklist;
 
     public BookCollection(){
         super(myTableName);
         booklist = new Vector<>();
+    }
+
+    //----------------------------------------------------------------------------------
+    public void sortInAscendingOrderBasedOnAuthorsName(){
+        booklist.sort(new Comparator<Book>() {
+            public int compare(Book b1, Book b2) {
+                return b1.getAuthor().compareTo(b2.getAuthor());
+            }
+        });
+    }
+
+    public boolean emptyList(){
+        if(booklist.isEmpty())
+            return true; else return false;
     }
 
 

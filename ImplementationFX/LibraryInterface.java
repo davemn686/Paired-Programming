@@ -51,12 +51,12 @@ public class LibraryInterface extends Application{
 
         // Finish setting up the stage (ENABLE THE GUI TO BE CLOSED USING THE TOP RIGHT
         // 'X' IN THE WINDOW), and show it.
-        mainStage.setOnCloseRequest(new EventHandler <javafx.stage.WindowEvent>() {
-            @Override
-            public void handle(javafx.stage.WindowEvent event) {
-                System.exit(0);
-            }
-        });
+            mainStage.setOnCloseRequest(new EventHandler <javafx.stage.WindowEvent>() {
+                @Override
+                public void handle(javafx.stage.WindowEvent event) {
+                    System.exit(0);
+                }
+            });
 
         try
         {
@@ -75,10 +75,7 @@ public class LibraryInterface extends Application{
         mainStage.show();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
-        
-
-
 }
