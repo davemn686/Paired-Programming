@@ -45,7 +45,7 @@ public class SearchPatronView extends View {
 
         populateFields();
 
-        myModel.subscribe("SearchPatronError", this);
+        myModel.subscribe("searchPatronFailure", this);
     }
 
     private Node createTitle(){
@@ -69,7 +69,7 @@ public class SearchPatronView extends View {
 
         searchTextField = new TextField();
         searchTextField.setPrefWidth(200);
-        Text searchLabel = new Text("Search: ");
+        Text searchLabel = new Text("Enter patron zip");
         searchLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         searchLabel.setFill(Color.DARKGREEN);
 
@@ -140,7 +140,7 @@ public class SearchPatronView extends View {
     }
 
     public void updateState(String key, Object value){
-        if (key.equals("SearchPatronError") == true){
+        if (key.equals("searchPatronFailure") == true){
             displayErrorMessage((String)value);
         }
     }

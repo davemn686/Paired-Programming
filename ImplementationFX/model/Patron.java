@@ -103,10 +103,16 @@ public class Patron extends EntityBase implements IView{
         }
     }
 
+
     public Patron(){
         super(myTableName);
 
         persistentState = new Properties();
+    }
+
+    //-----------------------------------------------------------------------------------
+    public String getName(){
+        return persistentState.getProperty("name");
     }
 
     //-----------------------------------------------------------------------------------

@@ -29,7 +29,6 @@ public class BookView extends View {
     private TextField TitleTextField;
     private TextField PublicationDateTextField;
 
-    private ComboBox<String> StatusComboBox;
 
     private Button SubmitButton;
     private Button DoneButton;
@@ -41,21 +40,20 @@ public class BookView extends View {
 
         VBox container = new VBox(10);
         container.setAlignment(Pos.CENTER);
-        
+
         container.getChildren().add(createTitle());
         container.getChildren().add(createFormContents());
         container.getChildren().add(createStatusLog("                          "));
 
         getChildren().add(container);
-        
+
         populateFields();
 
-        myModel.subscribe("InsertBookError", this);
-        myModel.subscribe("BookInsertSuccess", this);
+        myModel.subscribe("insertBookSuccess", this);
     }
 
     private Node createTitle(){
-        Text titleText = new Text("       Brockport Library Book Entry          ");
+        Text titleText = new Text("       Insert Book        ");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
         titleText.setFill(Color.DARKGREEN);
@@ -85,20 +83,11 @@ public class BookView extends View {
         titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         titleLabel.setFill(Color.DARKGREEN);
 
-
         PublicationDateTextField = new TextField();
         PublicationDateTextField.setPrefWidth(200);
         Text publicationDateLabel = new Text("Publication Date: ");
         publicationDateLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         publicationDateLabel.setFill(Color.DARKGREEN);
-
-
-        StatusComboBox = new ComboBox<>();
-        StatusComboBox.setPrefWidth(200);
-        Text statusLabel = new Text("Status: ");
-        statusLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-        statusLabel.setFill(Color.DARKGREEN);
-
 
         SubmitButton = new Button("Submit");
         SubmitButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -129,8 +118,6 @@ public class BookView extends View {
             TitleTextField,
             publicationDateLabel,
             PublicationDateTextField,
-            statusLabel,
-            StatusComboBox,
             buttonRow
         );
 
@@ -149,9 +136,6 @@ public class BookView extends View {
         TitleTextField.setText("");
         PublicationDateTextField.setText("");
         //combobox has two values, Active and Inactive
-        StatusComboBox.getItems().add("Active");
-        StatusComboBox.getItems().add("Inactive");
-        StatusComboBox.setValue("Active");
     }   
 
     public void processAction(Event evt){
@@ -166,7 +150,7 @@ public class BookView extends View {
         String authorText = AuthorTextField.getText();
         String titleText = TitleTextField.getText();
         String publicationDateText = PublicationDateTextField.getText();
-        String statusText = StatusComboBox.getValue();
+        String statusText = "active";
 
         if(authorText.isEmpty() || titleText.isEmpty() || publicationDateText.isEmpty() || statusText.isEmpty()){
             displayErrorMessage("Please fill in all fields");
@@ -199,9 +183,7 @@ public class BookView extends View {
         AuthorTextField.setText("");
         TitleTextField.setText("");
         PublicationDateTextField.setText("");
-        StatusComboBox.setValue("Active");
 
-        displayErrorMessage("Successfully inserted book");
 
     }
 
@@ -212,10 +194,8 @@ public class BookView extends View {
 
 
     public void updateState(String key, Object value){
-        if (key.equals("InsertBookError") == true){
-            displayErrorMessage((String)value);
-        } else if (key.equals("BookInsertSuccess")) {
-            displayErrorMessage((String)value);
+        if (key.equals("insertBookSuccess")){
+            displayErrorMessage((String) value);
         }
     }
     

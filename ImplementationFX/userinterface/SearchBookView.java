@@ -45,7 +45,7 @@ public class SearchBookView extends View {
 
         populateFields();
 
-        myModel.subscribe("SearchBookError", this);
+        myModel.subscribe("searchBookFailure", this);
         }
 
     private Node createTitle(){
@@ -139,7 +139,7 @@ public class SearchBookView extends View {
     }
     
     public void updateState(String key, Object value){
-        if (key.equals("SearchBookError") == true){
+        if (key.equals("searchBookFailure") == true){
             displayErrorMessage((String)value);
         }
     }

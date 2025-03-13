@@ -142,10 +142,6 @@ public class PatronCollectionView extends View{
         tableOfPatrons = new TableView<PatronTableModel>();
         tableOfPatrons.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        TableColumn patronIDColumn = new TableColumn("Patron ID");
-        patronIDColumn.setMinWidth(100);
-        patronIDColumn.setCellValueFactory(new PropertyValueFactory<Patron, String>("patronID"));
-
         TableColumn patronNameColumn = new TableColumn("Patron Name") ;
         patronNameColumn.setMinWidth(100);
         patronNameColumn.setCellValueFactory(
@@ -183,7 +179,7 @@ public class PatronCollectionView extends View{
 
 
 
-        tableOfPatrons.getColumns().addAll(patronIDColumn, patronNameColumn, patronAddressColumn, patronCityColumn, patronStateCodeColumn, patronZipColumn, patronEmailColumn, patronDOBColumn);
+        tableOfPatrons.getColumns().addAll(patronNameColumn, patronAddressColumn, patronCityColumn, patronStateCodeColumn, patronZipColumn, patronEmailColumn, patronDOBColumn);
 
         tableOfPatrons.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override

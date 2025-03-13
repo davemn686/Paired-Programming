@@ -52,7 +52,7 @@ public class PatronView extends View {
 
         populateFields();
 
-        myModel.subscribe("InsertPatronError", this);
+        myModel.subscribe("insertPatronSuccess", this);
     }
 
     private Node createTitle(){
@@ -268,6 +268,8 @@ public class PatronView extends View {
 
         myModel.stateChangeRequest("InsertAPatron", prop);
 
+        populateFields();
+
 
     }
 
@@ -277,7 +279,7 @@ public class PatronView extends View {
 
 
     public void updateState(String key, Object value){
-        if (key.equals("InsertPatronError") == true){
+        if (key.equals("insertPatronSuccess")){
             displayErrorMessage((String)value);
         }
     }

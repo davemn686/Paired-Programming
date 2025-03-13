@@ -64,6 +64,8 @@ public class BookCollectionView extends View{
         getChildren().add(container);
 
         populateFields();
+
+        myModel.subscribe("searchBookSuccess", this);
     }
 
     //--------------------------------------------------------------------------
@@ -173,12 +175,12 @@ public class BookCollectionView extends View{
         scrollPane.setContent(tableOfBooks);
 
 
-        doneButton = new Button("Done");
+        doneButton = new Button("Back");
         doneButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) { 
                 clearErrorMessage();
-                processBookSelected();
+                myModel.stateChangeRequest("SearchBook", null);
             }
         });
 
@@ -200,6 +202,14 @@ public class BookCollectionView extends View{
     //--------------------------------------------------------------------------    
     public void updateState(String key, Object value)
     {
+        if (key.equals("searchBookSuccess")){
+            //displayErrorMessage((String)value);
+            System.out.println((String)value);
+        }
+    }
+
+    private void returnToHome(){
+        myModel.stateChangeRequest("DoneAndDelete", null);
     }
 
     //--------------------------------------------------------------------------
@@ -223,6 +233,13 @@ public class BookCollectionView extends View{
         return statusLog;
     }
 
+    public void displayErrorMessage(String message){
+        statusLog.displayMessage(message);
+    }
+
+    public void clearErrorMessage(){
+        statusLog.clearErrorMessage();
+    }
     /**
      * Display info message
      */
@@ -232,12 +249,4 @@ public class BookCollectionView extends View{
         statusLog.displayMessage(message);
     }
     
-    /**
-     * Clear error message
-     */
-    //----------------------------------------------------------
-    public void clearErrorMessage()
-    {
-        statusLog.clearErrorMessage();
-    }
 }

@@ -30,9 +30,11 @@ public class Librarian implements IView , IModel {
     private Hashtable<String, Scene> myViews;
     private Stage myStage;
 
-    private String loginErrorMessage = "";
-    private String transactionErrorMessage = "";
-    private String successMessage = "";
+    private String insertSuccessful;
+    private String searchSuccessful;
+    private String searchFailure;
+
+
     private BookCollection bookCollection;
     private PatronCollection patronCollection;
 
@@ -57,11 +59,29 @@ public class Librarian implements IView , IModel {
 
     }
 
+
+    /** Register objects to receive state updates. */
+    //----------------------------------------------------------
+    public void subscribe(String key, IView subscriber){
+        myRegistry.subscribe(key, subscriber);
+    }
+
+    /** Unregister previously registered objects. */
+    //----------------------------------------------------------
+    public void unSubscribe(String key, IView subscriber)
+    {myRegistry.unSubscribe(key, subscriber);
+    }
+
     private void setDependencies() {
         dependencies = new Properties();
-        dependencies.setProperty("loginErrorMessage", loginErrorMessage);
-        dependencies.setProperty("successMessage", successMessage);
-        dependencies.setProperty("transactionErrorMessage", transactionErrorMessage);
+
+        insertSuccessful = "Successfully inserted book";
+        searchSuccessful = "Successfully searched book";
+        searchFailure = "No books found matching the given input";
+
+        dependencies.setProperty("insertSuccessful", insertSuccessful);
+        dependencies.setProperty("searchSuccessful", searchSuccessful);
+        dependencies.setProperty("searchFailure", searchFailure);
 
         myRegistry.setDependencies(dependencies);
     }
@@ -78,27 +98,19 @@ public class Librarian implements IView , IModel {
     //----------------------------------------------------------
     public Object getState(String key)
     {
-        if(key.equals("BookList")) {
-            return bookCollection;
-        }else if(key.equals("PatronList")){
-            return patronCollection;
-        }
-
-        return "";
+        return switch (key) {
+            case "BookList" -> bookCollection;
+            case "PatronList" -> patronCollection;
+            case "insertBookSuccess" -> insertSuccessful;
+            case "searchBookSuccess" -> searchSuccessful;
+            case "insertPatronSuccess" -> insertSuccessful;
+            case "searchBookFailure" -> searchFailure;
+            case "searchPatronFailure" -> searchFailure;
+            default -> "";
+        };
     }
 
 
-    /** Register objects to receive state updates. */
-    //----------------------------------------------------------
-    public void subscribe(String key, IView subscriber) {
-
-    }
-
-    /** Unregister previously registered objects. */
-    //----------------------------------------------------------
-    public void unSubscribe(String key, IView subscriber) {
-
-    }
 
     //----------------------------------------------------------------
     public void stateChangeRequest(String key, Object value)
@@ -107,34 +119,76 @@ public class Librarian implements IView , IModel {
         // just set up dependencies for
         // DEBUG System.out.println("Teller.sCR: key = " + key);
 
-        if(key.equals("Done")){
+        if(key.equals("Done")) {
             createAndShowLibrarianView();
+        }else if(key.equals("DoneAndDelete")) {
+            bookCollection = new BookCollection();
+            patronCollection = new PatronCollection();
+            createAndShowLibrarianView();
+
+
+
+        // Book
         }else if(key.equals("InsertBook")){
             createNewBook();
+
+
+
         }else if(key.equals("InsertABook")){
             // This is to insert a new book
             Book book  = new Book();
             book.processNewBook((Properties)value);
             book.save();
-            
+
             // Add success message
-            successMessage = "Successfully inserted book";
-            myRegistry.updateSubscribers("BookInsertSuccess", this);
+            insertSuccessful = "Successfully inserted book";
+            myRegistry.updateSubscribers("insertBookSuccess", this);
+
+        
+        
         }else if(key.equals("SearchBook")){
             createAndShowSearchBookView();
+
+
+
         }else if(key.equals("FindBookWithTitleLike")){
             bookCollection = new BookCollection();
             bookCollection.findBooksWithTitleLike((String)value);
-            createAndShowBookCollectionView();
+            bookCollection.sortInAscendingOrderBasedOnAuthorsName();
+
+            if(bookCollection.emptyList()) {
+                searchFailure = "No books found matching the given input";
+                
+                dependencies.setProperty("searchFailure", searchFailure);
+                myRegistry.setDependencies(dependencies);
+
+
+                myRegistry.updateSubscribers("searchBookFailure", this);
+
+            }else{
+                createAndShowBookCollectionView();
+            }
         }else if(key.equals("BookSelected")){
             
             Book book = bookCollection.retrieve((String)value);
             if(book == null){
-                System.out.println(loginErrorMessage);
+                searchFailure = "No book found matching the given input";
+                dependencies.setProperty("searchFailure", searchFailure);
+                myRegistry.setDependencies(dependencies);
+
+                myRegistry.updateSubscribers("searchBookFailure", this);
 
             }else{
-                book.display();
+                searchSuccessful = book.toString();
+                dependencies.setProperty("searchSuccessful", searchSuccessful);
+                myRegistry.setDependencies(dependencies);
+
+                myRegistry.updateSubscribers("searchBookSuccess", this);
+
             }
+
+
+        // Patron
         }else if(key.equals("InsertPatron")){
             createNewPatron();
         }else if(key.equals("InsertAPatron")){
@@ -142,15 +196,28 @@ public class Librarian implements IView , IModel {
             patron.processNewPatron((Properties)value);
             patron.save();
 
-            successMessage = "Successfully inserted patron";
-            myRegistry.updateSubscribers("PatronInsertSuccess", this);
+            insertSuccessful = "Successfully inserted patron";
+            myRegistry.updateSubscribers("insertPatronSuccess", this);
+
         }else if (key.equals("SearchPatron")){
             createAndShowSearchPatronView();
         }else if(key.equals("FindPatronAtZipCode")){
             patronCollection = new PatronCollection();
             patronCollection.findPatronsAtZipCode((String)value);
-            createAndShowPatronCollectionView();
+            patronCollection.sortInAscendingOrderBasedOnName();
 
+            if(patronCollection.emptyList()){
+                searchFailure = "No patrons found matching the given input zip code";
+                dependencies.setProperty("searchFailure", searchFailure);
+                myRegistry.setDependencies(dependencies);
+
+                myRegistry.updateSubscribers("searchPatronFailure", this);
+            }else{
+                createAndShowPatronCollectionView();
+            }
+
+        }else if(key.equals("Close")){
+            myStage.close();
         }
     }
 
@@ -164,6 +231,9 @@ public class Librarian implements IView , IModel {
     }
 
     private void createAndShowBookCollectionView(){
+
+        myViews.remove("BookCollectionView");
+
         Scene currentScene = (Scene)myViews.get("BookCollectionView");
 
         if(currentScene == null) {
@@ -177,6 +247,9 @@ public class Librarian implements IView , IModel {
     }
 
     private void createAndShowPatronCollectionView(){
+
+        myViews.remove("PatronCollectionView");
+
         Scene currentScene = (Scene)myViews.get("PatronCollectionView");
 
         if(currentScene == null) {
@@ -283,3 +356,5 @@ public class Librarian implements IView , IModel {
 
     }
 }
+
+

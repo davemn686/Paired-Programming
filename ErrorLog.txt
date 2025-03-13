@@ -4,3 +4,5 @@
 [2/25/25, 1:35 PM]|Book|getSchemaInfo|Error|NOTAG|null<SQL Exception: -1: (conn=727) Socket error>
 [2/26/25, 3:06 PM]|AccountHolder|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1146: (conn=1151) Table 'spr25_csc429_backe1.AccountHolder' doesn't exist>
 [3/4/25, 11:59 AM]|LibraryInterface|Librarian.<init>|Error|NOTAG|null<Unable to create Librarian object>
+[3/12/25, 2:50 PM]|LibraryInterface|Librarian.<init>|Error|NOTAG|null<Unable to create Librarian object>
+[3/12/25, 2:51 PM]|LibraryInterface|Librarian.<init>|Error|NOTAG|null<Unable to create Librarian object>

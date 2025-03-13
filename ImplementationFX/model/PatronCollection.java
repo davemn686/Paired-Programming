@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import java.util.Comparator;
 import java.util.Properties;
 import java.util.Vector;
 import javafx.scene.Scene;
@@ -30,6 +31,25 @@ public class PatronCollection extends EntityBase implements IView
     public PatronCollection(){
         super(myTableName);
         patronlist = new Vector<>();
+    }
+
+    public boolean emptyList(){
+        if(patronlist.isEmpty())
+            return true; else return false;
+    }
+
+    public void clearPatrons(){
+        for(int i = 0; i <  patronlist.size(); i++){
+            patronlist.remove(i);
+        }
+    }
+
+    public void sortInAscendingOrderBasedOnName(){
+        patronlist.sort(new Comparator<Patron>() {
+            public int compare(Patron p1, Patron p2) {
+                return p1.getName().compareTo(p2.getName());
+            }
+        });
     }
 
 

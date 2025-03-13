@@ -158,7 +158,7 @@ public class LibrarianView  extends View{
         } else if (evt.getSource() == searchPatronButton){
             myModel.stateChangeRequest("SearchPatron", null);
         } else if (evt.getSource() == doneButton){
-            myModel.stateChangeRequest("Done", null);
+            myModel.stateChangeRequest("Close", null);
         }
     }
 

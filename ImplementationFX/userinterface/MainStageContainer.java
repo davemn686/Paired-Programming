@@ -30,9 +30,7 @@ public class MainStageContainer
 	
 	// class constructor
 	//----------------------------------------------------------
-	private MainStageContainer ()
-	{
-	}
+	private MainStageContainer (){}
 
 	//----------------------------------------------------------
 	public static Stage getInstance()
@@ -46,6 +44,9 @@ public class MainStageContainer
 		myInstance = st;
 		myInstance.setTitle(title);
 		myInstance.setResizable(false);
+	
+		
+	
 	}
 		
 }
